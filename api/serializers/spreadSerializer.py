@@ -10,5 +10,6 @@ class SpreadSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id',)
         extra_kwargs = {
-            'market_id': {'required': True}
+            'market_id': {'required': True},
+            'spread': {'required': True}
         }

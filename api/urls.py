@@ -1,17 +1,16 @@
 from rest_framework.routers import DefaultRouter
 from posixpath import basename
-from api import views
-from django.urls import path, include
+from api.views import spread, trial
+from django.urls import path
 
 router = DefaultRouter()
 
-router.register(r'test', views.TestView, basename='test')
-# router.register(r'spread', views.SpreadView, basename='spread')
+router.register(r'trial', trial.CrudViewSet, basename='trial')
 
-urlpatterns = router.urls + [
-     path('spread/<str:market_id>/', views.SpreadView.as_view(), name='spread'),
+route_spread = [
+     path('spread/<str:market_id>/', spread.RetrieveAPIView.as_view(), name='spread.retrieve'),
 ]
 
-# urlpatterns = [
-#     path('test/', views.TestView.as_view(), basename='test'),
-# ]
+urlpatterns = \
+     router.urls + \
+     route_spread

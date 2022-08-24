@@ -11,8 +11,7 @@ from api import serializers
 
 ACCESS = AllowAny
 
-# class TestView(viewsets.ViewSet, PageNumberPagination):
-class TestView(viewsets.ViewSet, CustomPagination):
+class CrudViewSet(viewsets.ViewSet, CustomPagination):
     serializer_class = serializers.TestSerializer
     permission_classes = [ACCESS]
 
