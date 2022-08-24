@@ -11,24 +11,28 @@ from spread.utils import operations
 
 ACCESS = AllowAny
 
-class RetrieveAPIView(APIView):
+class ListAPIView(APIView):
     permission_classes = [ACCESS]
 
     def get(self, request, *args, **kwargs):
         try:
-            market_id = kwargs.get('market_id')
-            ticker = buda.get_ticker(market_id)
-            spread = operations.calculate_spread(data=ticker)
+            markets = buda.get_markets()
+            markets = markets['markets']
+            spreads = []
+
+            for market in markets:
+                market_id = market['id']
+                ticker = buda.get_ticker(market_id)
+                spreads.append({
+                    market_id: {
+                        'spread': operations.calculate_spread(data=ticker),
+                    },
+                })
+                
             return get_standar_success_response(
                 request=request,
                 messageUser='Recurso encontrado con exito',
-                data={
-                    'markets':{
-                        market_id: {
-                            'spread': spread
-                        }
-                    }
-                },
+                data={'markets': spreads},
                 status_code=status.HTTP_200_OK
             )
         except Http404 as ex:

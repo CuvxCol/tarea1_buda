@@ -9,6 +9,7 @@ router.register(r'trial', trial.CrudViewSet, basename='trial')
 
 route_spread = [
      path('spread/<str:market_id>/', spread.RetrieveAPIView.as_view(), name='spread.retrieve'),
+     path('spread/', spread.ListAPIView.as_view(), name='spread.list'),
 ]
 
 urlpatterns = \
