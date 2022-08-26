@@ -6,8 +6,7 @@ from django.http import Http404
 
 from spread.utils import get_standar_success_response
 from spread.utils import CustomPagination
-from spread.utils import buda
-from spread.utils import operations
+from spread.utils import get_spread
 
 ACCESS = AllowAny
 
@@ -17,17 +16,12 @@ class RetrieveAPIView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             market_id = kwargs.get('market_id')
-            ticker = buda.get_ticker(market_id)
-            spread = operations.calculate_spread(data=ticker)
+            spread = get_spread(market_id)
             return get_standar_success_response(
                 request=request,
                 messageUser='Recurso encontrado con exito',
                 data={
-                    'markets':{
-                        market_id: {
-                            'spread': spread
-                        }
-                    }
+                    'markets': spread,
                 },
                 status_code=status.HTTP_200_OK
             )
@@ -35,3 +29,4 @@ class RetrieveAPIView(APIView):
             raise Http404(str(ex))
         except Exception as ex:
             raise Exception(str(ex))
+

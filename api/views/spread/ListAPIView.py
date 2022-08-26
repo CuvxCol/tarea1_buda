@@ -6,8 +6,8 @@ from django.http import Http404
 
 from spread.utils import get_standar_success_response
 from spread.utils import CustomPagination
+from spread.utils import get_spread
 from spread.utils import buda
-from spread.utils import operations
 
 ACCESS = AllowAny
 
@@ -18,16 +18,8 @@ class ListAPIView(APIView):
         try:
             markets = buda.get_markets()
             markets = markets['markets']
-            spreads = []
 
-            for market in markets:
-                market_id = market['id']
-                ticker = buda.get_ticker(market_id)
-                spreads.append({
-                    market_id: {
-                        'spread': operations.calculate_spread(data=ticker),
-                    },
-                })
+            spreads = map(lambda market: {market['id']:get_spread(market['id'])}, markets)
                 
             return get_standar_success_response(
                 request=request,

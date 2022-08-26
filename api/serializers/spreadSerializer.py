@@ -6,7 +6,9 @@ class SpreadSerializer(serializers.ModelSerializer):
         model = models.Spread
         fields = (
             'market_id',
-            'spread'
+            'spread',
+            'iso_code',
+            'createdAt',
         )
         read_only_fields = ('id',)
         extra_kwargs = {

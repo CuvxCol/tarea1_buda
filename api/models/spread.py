@@ -12,7 +12,12 @@ class Spread(models.Model):
         decimal_places=8,
         null=False
     )
-    createdAt = models.DateField(
+    iso_code = models.CharField(
+        max_length=5,
+        null=False,
+        blank=False
+    )
+    createdAt = models.DateTimeField(
         null=False,
         blank=False,
         auto_now_add = True
