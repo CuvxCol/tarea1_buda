@@ -12,6 +12,7 @@ from api import models
 from api import serializers
 
 from datetime import datetime
+from django.utils import timezone
 
 ACCESS = AllowAny
 
@@ -32,7 +33,7 @@ class LastSavedAPIView(APIView):
             serializer = self.serializer_class(queryset, many=True)
             data = {
                 'markets':{
-                    'saved_at': serializer.data[0]['createdAt'],
+                    'saved_at': datetime.fromisoformat(serializer.data[0]['createdAt']).strftime("%d-%m-%Y %H:%M:%S"),
                     kwargs.get('market_id'): [
                         serializer.data[0]['spread'],
                         serializer.data[0]['iso_code']
