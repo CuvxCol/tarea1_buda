@@ -8,6 +8,7 @@ from spread.utils import get_standar_success_response
 from spread.utils import CustomPagination
 from spread.utils import get_spread
 from spread.utils import buda
+from spread.utils import xmap
 
 ACCESS = AllowAny
 
@@ -19,7 +20,7 @@ class ListAPIView(APIView):
             markets = buda.get_markets()
             markets = markets['markets']
 
-            spreads = map(lambda market: {market['id']:get_spread(market['id'])}, markets)
+            spreads = xmap(lambda market: {market['id']:get_spread(market['id'])}, markets)
                 
             return get_standar_success_response(
                 request=request,
