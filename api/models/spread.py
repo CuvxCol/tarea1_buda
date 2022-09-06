@@ -9,7 +9,7 @@ class Spread(models.Model):
     )
     spread = models.DecimalField(
         max_digits=20,
-        decimal_places=8,
+        decimal_places=10,
         null=False
     )
     iso_code = models.CharField(
